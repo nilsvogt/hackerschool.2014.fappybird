@@ -13,13 +13,20 @@
  *
  * Changelog:
  *  - preload, create, update
+ *  - evtlistener for KEY_CODE_SPACE
  */
 
-// Zunächst definieren wir all Variablen, die wir
+// Zunächst definieren wir alle Variablen, die wir
 // für das Erstellen des Spieles benötigen
 var stage, context,
     images = {},
     queued_images = 0;
+
+// nun definieren wir die Variable, die wir für das
+// Steuern des Spiels benötigen
+var position_background, position_bird;
+
+var KEY_CODE_SPACE = 32;
 
 /**
  * Preload grafics
@@ -73,21 +80,45 @@ function create(){
   // I am not yet sure how to explain the context. Maybe this needs to stay
   // unexplained for the first session? feel free to enhance anything here.
   context = stage.getContext("2d");
+
+  // Nun setzen wir die Variablen, die wir in unserem GameLoop benötigen
+  position_background = 0;
+  position_bird = stage.height / 2;
+
+  // beim Drücken der Leertaste soll der Vogel nach oben fliegen:
+  document.onkeypress = function(e){
+    e = e || window.event;
+    var key = e.keyCode || e.which;
+
+    // nun vergleichen wir den Tastencode der gedrückten Taste mit
+    // der Konstante KEY_CODE_SPACE, welche dem Wert 32 entspricht
+    if(key === KEY_CODE_SPACE){
+      // dieser Teil des Code wird nur dann ausgeführt, wenn 
+      // der vergleich stimmt!
+      alert(':)');
+    }
+  };
 }
 
 /**
  * game loop
  */
-// Nun definieren wir die Variablen, die wir in unserem GameLoop benötigen
-var background_position = 0;
 
 function update(){
-  background_position = background_position -5;
-  if(background_position < -1024) background_position = 0;
+  // Zwei Hintergrundbilder, für endlosschleife
+  position_background = position_background -5;
+  if(position_background < -1024) position_background = 0;
 
+  
+
+  position_bird = position_bird + 1;
+  
+  // Zeichnen: erst löschen, dann aktualisieren
   context.clearRect(0,0,1024,768);
-  context.drawImage(images['background'], background_position, 0, stage.width, stage.height);
-  context.drawImage(images['background'], 1024 + background_position, 0, stage.width, stage.height);
+  context.drawImage(images['background'], position_background, 0, stage.width, stage.height);
+  context.drawImage(images['background'], 1024 + position_background, 0, stage.width, stage.height);
+
+  context.drawImage(images['bird'], stage.width/2, position_bird, 35, 25);
 }
 
 create();
