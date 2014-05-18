@@ -14,6 +14,11 @@
  * Changelog:
  *  - preload, create, update
  *  - evtlistener for KEY_CODE_SPACE
+ *
+ * Variablennamen und Funktionsnamen auf Deutsch
+ * Refactoring
+ * Talks
+ *
  */
 
 // Zunächst definieren wir alle Variablen, die wir
@@ -44,18 +49,19 @@ function loadImage( image_name, image_path ){
       queued_images = queued_images - 1; // queued_images--;
 
       if(queued_images === 0){
-        loadedAllImages();
+        startGame();
       }
   };
   image.src = image_path;
 }
 
-function loadedAllImages(){
+function startGame(){
   // mit setInterval können wir eine Prozedur in einem definierten
   // Zeitabstand immer wieder aufrufen. In unserem Fall ist das die
   // update-Funktion
   setInterval(update, 1000/60);
 }
+
 
 /**
  * create the game
